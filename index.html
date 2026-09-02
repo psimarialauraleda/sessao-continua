@@ -97,6 +97,35 @@
   .masthead p { margin: 8px 0 0; color: var(--text-muted); font-size: 0.98rem; max-width: 46ch; }
   .masthead-meta { margin-top: 18px; display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.78rem; color: var(--text-muted); }
   .masthead-meta strong { color: var(--pink); font-family: "IBM Plex Mono", monospace; }
+  .botao-sair {
+    background: none; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 3px 11px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+  }
+  .botao-sair:hover { border-color: var(--pink); color: var(--pink); }
+
+  /* ===== Tela de login ===== */
+  .tela-login {
+    position: fixed; inset: 0; z-index: 100; padding: 24px;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(155deg, var(--yellow-wash), var(--pink-wash)), var(--bg);
+  }
+  .cartao-login {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 30px; width: 100%; max-width: 360px; box-shadow: 0 12px 32px var(--shadow);
+  }
+  .cartao-login h1 { font-size: 2rem; line-height: 1; color: var(--pink); margin-bottom: 8px; }
+  .cartao-login h1 .tique { color: var(--yellow); -webkit-text-stroke: 1px var(--pink); }
+  .cartao-login p { color: var(--text-muted); font-size: 0.86rem; margin: 0 0 6px; }
+  .cartao-login label { display: block; font-size: 0.74rem; color: var(--text-muted); margin: 14px 0 4px; }
+  .cartao-login input {
+    width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text); font-size: 1rem; font-family: inherit;
+  }
+  .cartao-login button[type="submit"] {
+    margin-top: 20px; width: 100%; padding: 12px; border-radius: 8px; border: none;
+    background: var(--pink); color: var(--pink-ink); font-size: 0.95rem; font-weight: 700;
+  }
+  .erro-login { color: var(--rotten); font-size: 0.8rem; margin-top: 12px; font-weight: 600; }
 
   .nav-secoes {
     position: sticky; top: 0; z-index: 20;
@@ -184,6 +213,10 @@
   }
   .estrelas .estrela-fundo { color: var(--border); }
   .estrelas .estrela-preenchida { color: var(--yellow); overflow: hidden; width: 0%; }
+  .estrelas.leitura { opacity: 0.75; }
+  .estrelas.leitura button { cursor: default; }
+  .estrelas.leitura button:hover { transform: none; }
+  .tag-outro-salvou { display: block; font-size: 0.68rem; color: var(--text-muted); margin-top: 3px; font-weight: 600; }
   .botao-favorito {
     background: none; border: none; padding: 0; margin-left: 2px;
     font-size: 0.95rem; line-height: 1; filter: grayscale(1) opacity(0.5); transition: transform 0.1s;
@@ -298,6 +331,23 @@
 </head>
 <body>
 
+<div id="tela-login" class="tela-login" hidden>
+  <div class="cartao-login">
+    <h1>Sessão<span class="tique"> Contínua</span></h1>
+    <p>Entra com seu e-mail e senha pro site saber quem está avaliando.</p>
+    <form id="form-login">
+      <label for="login-email">E-mail</label>
+      <input type="email" id="login-email" required autocomplete="username" inputmode="email">
+      <label for="login-senha">Senha</label>
+      <input type="password" id="login-senha" required autocomplete="current-password">
+      <button type="submit">Entrar</button>
+      <p id="erro-login" class="erro-login" hidden></p>
+    </form>
+  </div>
+</div>
+
+<div id="app-conteudo" hidden>
+
 <header class="masthead">
   <div class="masthead-inner">
     <h1>Sessão<span class="tique"> Contínua</span></h1>
@@ -309,6 +359,8 @@
       <span id="contador-favoritos">❤️ <strong>0</strong> favoritos</span>
       <span id="contador-salvos">Você salvou <strong>0</strong> pra depois</span>
       <span id="status-conexao" hidden style="color:var(--rotten);font-weight:700;">⚠️ sem conexão com o banco de dados — tentando de novo…</span>
+      <span id="status-login"></span>
+      <button type="button" id="botao-sair" class="botao-sair">Sair</button>
     </div>
   </div>
 </header>
@@ -423,15 +475,20 @@
 
 <footer>
   <p>
-    Dados de audiência, notas do Rotten Tomatoes e calendário de estreias pesquisados manualmente em 26/08/2026 a partir de imprensa especializada (Netflix Tudum, Rotten Tomatoes, Deadline, Variety, FlixPatrol, Showlabs, imprensa brasileira, entre outras) — não é integração automática, então vai desatualizar com o tempo. Globoplay teve bem menos dado público de ranking do que os streamings americanos, então essa aba ficou mais enxuta e de menos precisão. O 🎬 nos títulos de cinema mostra a data de estreia; quanto tempo cada um fica em cartaz depende de bilheteria e é decidido semana a semana já com o filme em exibição, então não existe uma data de saída pra mostrar antes de estrear. As estrelas da Laura e da Thalita, o ❤️ de favorito, itens salvos e títulos adicionados ficam num banco de dados compartilhado (Firebase) e sincronizam sozinhos entre os celulares de vocês duas, em tempo real — sem precisar de login.
+    Dados de audiência, notas do Rotten Tomatoes e calendário de estreias pesquisados manualmente em 26/08/2026 a partir de imprensa especializada (Netflix Tudum, Rotten Tomatoes, Deadline, Variety, FlixPatrol, Showlabs, imprensa brasileira, entre outras) — não é integração automática, então vai desatualizar com o tempo. Globoplay teve bem menos dado público de ranking do que os streamings americanos, então essa aba ficou mais enxuta e de menos precisão. O 🎬 nos títulos de cinema mostra a data de estreia; quanto tempo cada um fica em cartaz depende de bilheteria e é decidido semana a semana já com o filme em exibição, então não existe uma data de saída pra mostrar antes de estrear. Cada uma entra com seu próprio e-mail e senha, e só consegue mexer nas próprias estrelas — a nota da outra aparece do lado, mas em modo leitura. As estrelas, o ❤️ de favorito, o que cada uma salvou pra depois e os títulos adicionados ficam num banco de dados compartilhado (Firebase) e sincronizam sozinhos entre os celulares de vocês duas, em tempo real.
   </p>
 </footer>
+
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
   getFirestore, collection, doc, setDoc, addDoc, onSnapshot,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA1FzS41xHGLMOBg05_D01w4VQCSPOV3cU",
@@ -443,6 +500,7 @@ const firebaseConfig = {
 };
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+const auth = getAuth(firebaseApp);
 
 (function () {
   const GRADIENTES = {
@@ -574,28 +632,43 @@ const db = getFirestore(firebaseApp);
   Object.assign(POSTERS, POSTERS2);
 
   // ---- Estado compartilhado (Firestore) — em vez de localStorage, sincroniza Laura <-> Thalita ----
+  const PESSOA_POR_EMAIL = {
+    'mlauraledab@gmail.com': 'laura',
+    'thalitasiqueiracunha@gmail.com': 'thalita',
+  };
+  const NOME_PESSOA = { laura: 'Laura', thalita: 'Thalita' };
+
+  let euSou = null;
   let avaliacoesLaura = {};
   let avaliacoesThalita = {};
   let favoritos = {};
-  let salvos = {};
+  let salvosLaura = {};
+  let salvosThalita = {};
   let custom = [];
   let catalogo = CATALOGO_INICIAL.slice();
   let conexaoOk = true;
 
+  const outraPessoa = () => (euSou === 'thalita' ? 'laura' : 'thalita');
+  const meusSalvos = () => (euSou === 'thalita' ? salvosThalita : salvosLaura);
+  const salvosDaOutra = () => (euSou === 'thalita' ? salvosLaura : salvosThalita);
+
   function aplicarSnapshotEstado(snap) {
-    const novaLaura = {}, novaThalita = {}, novosFavoritos = {}, novosSalvos = {};
+    const novaLaura = {}, novaThalita = {}, novosFavoritos = {};
+    const novosSalvosLaura = {}, novosSalvosThalita = {};
     snap.forEach(docSnap => {
       const id = docSnap.id;
       const d = docSnap.data();
       if (typeof d.laura === 'number' && d.laura > 0) novaLaura[id] = d.laura;
       if (typeof d.thalita === 'number' && d.thalita > 0) novaThalita[id] = d.thalita;
       if (d.favorito) novosFavoritos[id] = true;
-      if (d.salvo) novosSalvos[id] = true;
+      if (d.salvoLaura) novosSalvosLaura[id] = true;
+      if (d.salvoThalita) novosSalvosThalita[id] = true;
     });
     avaliacoesLaura = novaLaura;
     avaliacoesThalita = novaThalita;
     favoritos = novosFavoritos;
-    salvos = novosSalvos;
+    salvosLaura = novosSalvosLaura;
+    salvosThalita = novosSalvosThalita;
     conexaoOk = true;
     renderTudo();
   }
@@ -612,8 +685,44 @@ const db = getFirestore(firebaseApp);
     renderTudo();
   }
 
-  onSnapshot(collection(db, 'estado'), aplicarSnapshotEstado, aoFalharConexao);
-  onSnapshot(collection(db, 'custom'), aplicarSnapshotCustom, aoFalharConexao);
+  // ---- Login ----
+  let pararEstado = null;
+  let pararCustom = null;
+
+  onAuthStateChanged(auth, (usuario) => {
+    const telaLogin = document.getElementById('tela-login');
+    const appConteudo = document.getElementById('app-conteudo');
+    if (usuario) {
+      euSou = PESSOA_POR_EMAIL[(usuario.email || '').toLowerCase()] || null;
+      telaLogin.hidden = true;
+      appConteudo.hidden = false;
+      if (!pararEstado) pararEstado = onSnapshot(collection(db, 'estado'), aplicarSnapshotEstado, aoFalharConexao);
+      if (!pararCustom) pararCustom = onSnapshot(collection(db, 'custom'), aplicarSnapshotCustom, aoFalharConexao);
+      renderTudo();
+    } else {
+      euSou = null;
+      telaLogin.hidden = false;
+      appConteudo.hidden = true;
+      if (pararEstado) { pararEstado(); pararEstado = null; }
+      if (pararCustom) { pararCustom(); pararCustom = null; }
+    }
+  });
+
+  document.getElementById('form-login').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const erroEl = document.getElementById('erro-login');
+    erroEl.hidden = true;
+    signInWithEmailAndPassword(
+      auth,
+      document.getElementById('login-email').value.trim(),
+      document.getElementById('login-senha').value,
+    ).catch(() => {
+      erroEl.textContent = 'E-mail ou senha incorretos.';
+      erroEl.hidden = false;
+    });
+  });
+
+  document.getElementById('botao-sair').addEventListener('click', () => signOut(auth));
 
   let filtroTipo = 'todos';
   let filtroGenero = 'todos';
@@ -647,10 +756,14 @@ const db = getFirestore(firebaseApp);
   }
 
   function estrelasHtml(id, notaAtual, pessoa) {
-    let html = `<div class="estrelas" data-id-estrelas="${id}" data-pessoa="${pessoa}">`;
+    const souEu = pessoa === euSou;
+    const dica = souEu
+      ? `${notaAtual || 0} de 5 — toque na metade esquerda/direita da estrela`
+      : `nota da ${NOME_PESSOA[pessoa]}: ${notaAtual || 0} de 5`;
+    let html = `<div class="estrelas ${souEu ? '' : 'leitura'}" data-id-estrelas="${id}" data-pessoa="${pessoa}">`;
     for (let i = 1; i <= 5; i++) {
       const preenchimento = Math.round(Math.max(0, Math.min(1, notaAtual - (i - 1))) * 100);
-      html += `<button type="button" data-id="${id}" data-valor="${i}" data-pessoa="${pessoa}" title="${notaAtual || 0} de 5 estrelas — toque na metade esquerda/direita da estrela">
+      html += `<button type="button" data-id="${id}" data-valor="${i}" data-pessoa="${pessoa}" title="${dica}">
         <span class="estrela-fundo">★</span><span class="estrela-preenchida" style="width:${preenchimento}%">★</span>
       </button>`;
     }
@@ -672,8 +785,11 @@ const db = getFirestore(firebaseApp);
   }
 
   function botaoSalvoHtml(id) {
-    const estaSalvo = !!salvos[id];
-    return `<button type="button" class="botao-salvo ${estaSalvo ? 'salvo' : ''}" data-id-salvar="${id}">${estaSalvo ? '✓ Salvo' : '+ Salvar'}</button>`;
+    const euSalvei = !!meusSalvos()[id];
+    const outraSalvou = !!salvosDaOutra()[id];
+    let html = `<button type="button" class="botao-salvo ${euSalvei ? 'salvo' : ''}" data-id-salvar="${id}">${euSalvei ? '✓ Você salvou' : '+ Salvar'}</button>`;
+    if (outraSalvou) html += `<span class="tag-outro-salvou">🔖 ${NOME_PESSOA[outraPessoa()]} também salvou</span>`;
+    return html;
   }
 
   function escapeHtml(texto) {
@@ -778,7 +894,7 @@ const db = getFirestore(firebaseApp);
       if (filtroTipo !== 'todos' && t.tipo !== filtroTipo) return false;
       if (filtroGenero !== 'todos' && t.genero !== filtroGenero) return false;
       if (filtroSafico && !t.safico) return false;
-      if (filtroSalvos && !salvos[t.id]) return false;
+      if (filtroSalvos && !meusSalvos()[t.id]) return false;
       return true;
     });
     const grade = document.getElementById('grade-catalogo');
@@ -795,8 +911,10 @@ const db = getFirestore(firebaseApp);
     document.getElementById('contador-favoritos').innerHTML =
       `❤️ <strong>${Object.keys(favoritos).filter(id => favoritos[id]).length}</strong> favoritos`;
     document.getElementById('contador-salvos').innerHTML =
-      `Você salvou <strong>${Object.keys(salvos).filter(id => salvos[id]).length}</strong> pra depois`;
+      `Você salvou <strong>${Object.keys(meusSalvos()).length}</strong> pra depois`;
     document.getElementById('status-conexao').hidden = conexaoOk;
+    document.getElementById('status-login').textContent =
+      euSou ? `Logada como ${NOME_PESSOA[euSou]}` : '';
   }
 
   function renderTudo() {
@@ -814,6 +932,7 @@ const db = getFirestore(firebaseApp);
     if (estrela) {
       const id = estrela.dataset.id;
       const pessoa = estrela.dataset.pessoa;
+      if (pessoa !== euSou) return; // cada uma só mexe na própria fileira
       const avaliacoes = pessoa === 'thalita' ? avaliacoesThalita : avaliacoesLaura;
       const campo = pessoa === 'thalita' ? 'thalita' : 'laura';
       const valorInteiro = parseInt(estrela.dataset.valor, 10);
@@ -835,7 +954,8 @@ const db = getFirestore(firebaseApp);
     const botaoSalvar = ev.target.closest('[data-id-salvar]');
     if (botaoSalvar) {
       const id = botaoSalvar.dataset.idSalvar;
-      setDoc(doc(db, 'estado', id), { salvo: !salvos[id] }, { merge: true }).catch(aoFalharConexao);
+      const campo = euSou === 'thalita' ? 'salvoThalita' : 'salvoLaura';
+      setDoc(doc(db, 'estado', id), { [campo]: !meusSalvos()[id] }, { merge: true }).catch(aoFalharConexao);
       return;
     }
 
