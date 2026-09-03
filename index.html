@@ -527,7 +527,7 @@
 
 <footer>
   <p>
-    Dados de audiência, notas do Rotten Tomatoes e calendário de estreias pesquisados manualmente em 26/08/2026 a partir de imprensa especializada (Netflix Tudum, Rotten Tomatoes, Deadline, Variety, FlixPatrol, Showlabs, imprensa brasileira, entre outras) — não é integração automática, então vai desatualizar com o tempo. Globoplay teve bem menos dado público de ranking do que os streamings americanos, então essa aba ficou mais enxuta e de menos precisão. O 🎬 nos títulos de cinema mostra a data de estreia; quanto tempo cada um fica em cartaz depende de bilheteria e é decidido semana a semana já com o filme em exibição, então não existe uma data de saída pra mostrar antes de estrear. Cada uma entra com seu próprio e-mail e senha, e só consegue mexer nas próprias estrelas — a nota da outra aparece do lado, mas em modo leitura. As estrelas, o ❤️ de favorito, o que cada uma salvou pra depois e os títulos adicionados ficam num banco de dados compartilhado (Firebase) e sincronizam sozinhos entre os celulares de vocês duas, em tempo real.
+    Dados de audiência, notas do Rotten Tomatoes e calendário de estreias pesquisados manualmente em 26/08/2026 a partir de imprensa especializada (Netflix Tudum, Rotten Tomatoes, Deadline, Variety, FlixPatrol, Showlabs, imprensa brasileira, entre outras) — não é integração automática, então vai desatualizar com o tempo. O 🎬 nos títulos de cinema mostra a data de estreia; quanto tempo cada um fica em cartaz depende de bilheteria e é decidido semana a semana já com o filme em exibição, então não existe uma data de saída pra mostrar antes de estrear. Cada uma entra com seu próprio e-mail e senha, e só consegue mexer nas próprias estrelas — a nota da outra aparece do lado, mas em modo leitura. As estrelas, o ❤️ de favorito, o que cada uma salvou pra depois e os títulos adicionados ficam num banco de dados compartilhado (Firebase) e sincronizam sozinhos entre os celulares de vocês duas, em tempo real.
   </p>
 </footer>
 
@@ -579,7 +579,7 @@ const auth = getAuth(firebaseApp);
     { nome:'Disney+',    cor:'#113ccf' },
     { nome:'Apple TV+',  cor:'#8e8e93' },
     { nome:'HBO Max',    cor:'#8b2fc9' },
-    { nome:'Globoplay',  cor:'#e63946' },
+    { nome:'Prime Video',cor:'#00a8e1' },
   ];
 
   const CATALOGO_INICIAL = [
@@ -616,10 +616,11 @@ const auth = getAuth(firebaseApp);
     { id:'weapons', titulo:'Weapons', tipo:'filme', genero:'terror', ano:2025, data:null, plataforma:'HBO Max', rt:null, safico:false, sinopse:'Terror aclamado pela crítica, agora disponível no streaming.' },
     { id:'euphoria-t3', titulo:'Euphoria', tipo:'serie', genero:'drama', ano:2026, data:null, plataforma:'HBO Max', rt:null, safico:false, aguardado:true, sinopse:'3ª temporada do drama adolescente mais intenso da HBO.' },
 
-    // ---- Globoplay ----
-    { id:'bbb26', titulo:'BBB 26', tipo:'serie', genero:'reality', ano:2026, data:null, plataforma:'Globoplay', rt:null, safico:false, sinopse:'Edição histórica do Big Brother Brasil — recorde de consumo digital no Globoplay, vencida por Ana Paula Renault.' },
-    { id:'eta-mundo-bom', titulo:'Êta Mundo Bom!', tipo:'serie', genero:'comedia', ano:2016, data:null, plataforma:'Globoplay', rt:null, safico:false, sinopse:'Comédia romântica de época dos anos 1920, de Walcyr Carrasco — lidera historicamente a busca por novelas no catálogo.' },
-    { id:'vai-que-cola-final', titulo:'Vai Que Cola', tipo:'serie', genero:'comedia', ano:2026, data:'2026-08-03', plataforma:'Globoplay', rt:null, safico:false, sinopse:'Temporada final: a família do Méier estoura de fama após o novo livro de Dona Jô.' },
+    // ---- Prime Video ----
+    { id:'reacher-t4', titulo:'Reacher', tipo:'serie', genero:'acao', ano:2026, data:'2026-08-12', plataforma:'Prime Video', rt:88, safico:false, sinopse:'4ª temporada de Alan Ritchson como o ex-militar Jack Reacher — a mais sombria e complexa da franquia.' },
+    { id:'the-boys-t5', titulo:'The Boys', tipo:'serie', genero:'superheroi', ano:2026, data:null, plataforma:'Prime Video', rt:97, safico:false, sinopse:'5ª e última temporada da sátira de super-heróis corruptos — encerra a franquia com o maior score de crítica em anos.' },
+    { id:'the-runner', titulo:'The Runner', tipo:'filme', genero:'acao', ano:2026, data:'2026-09-02', plataforma:'Prime Video', rt:10, safico:false, sinopse:'Gal Gadot é uma advogada forçada a cumprir uma missão perigosa em troca da vida do filho sequestrado — pior nota da carreira da atriz.' },
+    { id:'neagley', titulo:'Neagley', tipo:'serie', genero:'acao', ano:2026, data:'2026-09-16', plataforma:'Prime Video', rt:null, safico:false, sinopse:'Spin-off de Reacher: a investigadora Frances Neagley encara uma missão perigosa usando sua experiência nos 110 Investigadores Especiais.' },
 
     // ---- Cinema / outros streamings (fora das 5 assinaturas, ficam no catálogo geral) ----
     { id:'dune-parte-tres', titulo:'Duna: Parte Três', tipo:'filme', genero:'ficcao', ano:2026, data:'2026-12-17', plataforma:'Cinema', rt:null, safico:false, aguardado:true, sinopse:'Denis Villeneuve fecha a trilogia adaptando Duna Messias, com Chalamet e Zendaya.' },
