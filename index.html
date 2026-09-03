@@ -103,6 +103,31 @@
   }
   .botao-sair:hover { border-color: var(--pink); color: var(--pink); }
 
+  .botao-legenda {
+    background: none; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 3px 11px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+  }
+  .botao-legenda:hover { border-color: var(--yellow); color: var(--text); }
+
+  .modal-legenda {
+    position: fixed; inset: 0; z-index: 110; padding: 24px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.45);
+  }
+  .modal-legenda[hidden] { display: none; }
+  .cartao-legenda {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; width: 100%; max-width: 420px; max-height: 80vh; overflow-y: auto;
+    box-shadow: 0 12px 32px var(--shadow);
+  }
+  .cartao-legenda h3 { font-size: 1.15rem; margin-bottom: 14px; }
+  .tabela-legenda { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .tabela-legenda td { padding: 7px 4px; border-bottom: 1px solid var(--border); }
+  .tabela-legenda td:first-child { white-space: nowrap; color: var(--yellow); font-size: 0.78rem; padding-right: 10px; }
+  .tabela-legenda tr.linha-coracao td:first-child { color: var(--pink); font-size: 1rem; }
+  .tabela-legenda tr:last-child td { border-bottom: none; }
+  .cartao-legenda .botao-cancelar-titulo { margin-top: 16px; }
+
   /* ===== Tela de login ===== */
   .tela-login {
     position: fixed; inset: 0; z-index: 100; padding: 24px;
@@ -362,11 +387,32 @@
       <span id="contador-favoritos">❤️ <strong>0</strong> favoritos</span>
       <span id="contador-salvos">Você salvou <strong>0</strong> pra depois</span>
       <span id="status-conexao" hidden style="color:var(--rotten);font-weight:700;">⚠️ sem conexão com o banco de dados — tentando de novo…</span>
+      <button type="button" id="botao-legenda" class="botao-legenda">⭐ O que significam as notas?</button>
       <span id="status-login"></span>
       <button type="button" id="botao-sair" class="botao-sair">Sair</button>
     </div>
   </div>
 </header>
+
+<div id="modal-legenda" class="modal-legenda" hidden>
+  <div class="cartao-legenda">
+    <h3>O que significa cada nota</h3>
+    <table class="tabela-legenda">
+      <tr><td>⭐ 0,5</td><td>Que diabo é isso?</td></tr>
+      <tr><td>⭐ 1</td><td>Nem a pipoca salvou</td></tr>
+      <tr><td>⭐ 1,5</td><td>Quase dormi no sofá</td></tr>
+      <tr><td>⭐⭐ 2</td><td>Dava pra passar reto</td></tr>
+      <tr><td>⭐⭐ 2,5</td><td>Pelo menos se esforçou</td></tr>
+      <tr><td>⭐⭐⭐ 3</td><td>Quase foi alguma coisa</td></tr>
+      <tr><td>⭐⭐⭐ 3,5</td><td>Gostei de ver mas dava pra melhorar</td></tr>
+      <tr><td>⭐⭐⭐⭐ 4</td><td>Maratonável</td></tr>
+      <tr><td>⭐⭐⭐⭐ 4,5</td><td>Quase perfeito</td></tr>
+      <tr><td>⭐⭐⭐⭐⭐ 5</td><td>Perfeito</td></tr>
+      <tr class="linha-coracao"><td>❤️</td><td>Favorito — amei, já quero ver de novo</td></tr>
+    </table>
+    <button type="button" id="fechar-legenda" class="botao-cancelar-titulo">Fechar</button>
+  </div>
+</div>
 
 <nav class="nav-secoes">
   <a href="#top-streamer">Tops por Streamer</a>
@@ -726,6 +772,16 @@ const auth = getAuth(firebaseApp);
   });
 
   document.getElementById('botao-sair').addEventListener('click', () => signOut(auth));
+
+  document.getElementById('botao-legenda').addEventListener('click', () => {
+    document.getElementById('modal-legenda').hidden = false;
+  });
+  document.getElementById('fechar-legenda').addEventListener('click', () => {
+    document.getElementById('modal-legenda').hidden = true;
+  });
+  document.getElementById('modal-legenda').addEventListener('click', (ev) => {
+    if (ev.target.id === 'modal-legenda') ev.currentTarget.hidden = true;
+  });
 
   let filtroTipo = 'todos';
   let filtroGenero = 'todos';
