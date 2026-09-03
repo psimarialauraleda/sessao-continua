@@ -249,6 +249,8 @@
   }
   .botao-favorito:hover { transform: scale(1.15); }
   .botao-favorito.ativo { filter: none; }
+  .botao-favorito.leitura { pointer-events: none; }
+  .botao-favorito.leitura:not(.ativo) { opacity: 0.55; }
   .tag-assistido { font-size: 0.72rem; font-weight: 700; margin-top: 4px; }
   .tag-assistido.laura { color: var(--pink); }
   .tag-assistido.thalita { color: var(--thalita); }
@@ -384,7 +386,8 @@
       <span>Snapshot pesquisado em <strong>26/08/2026</strong></span>
       <span id="contador-avaliados">Laura avaliou <strong>0</strong> títulos</span>
       <span id="contador-thalita">Thalita avaliou <strong>0</strong> títulos</span>
-      <span id="contador-favoritos">❤️ <strong>0</strong> favoritos</span>
+      <span id="contador-favoritos-laura">❤️ Laura: <strong>0</strong></span>
+      <span id="contador-favoritos-thalita">❤️ Thalita: <strong>0</strong></span>
       <span id="contador-salvos">Você salvou <strong>0</strong> pra depois</span>
       <span id="status-conexao" hidden style="color:var(--rotten);font-weight:700;">⚠️ sem conexão com o banco de dados — tentando de novo…</span>
       <button type="button" id="botao-legenda" class="botao-legenda">⭐ O que significam as notas?</button>
@@ -690,7 +693,8 @@ const auth = getAuth(firebaseApp);
   let euSou = null;
   let avaliacoesLaura = {};
   let avaliacoesThalita = {};
-  let favoritos = {};
+  let favoritosLaura = {};
+  let favoritosThalita = {};
   let salvosLaura = {};
   let salvosThalita = {};
   let custom = [];
@@ -702,20 +706,22 @@ const auth = getAuth(firebaseApp);
   const salvosDaOutra = () => (euSou === 'thalita' ? salvosLaura : salvosThalita);
 
   function aplicarSnapshotEstado(snap) {
-    const novaLaura = {}, novaThalita = {}, novosFavoritos = {};
+    const novaLaura = {}, novaThalita = {}, novosFavoritosLaura = {}, novosFavoritosThalita = {};
     const novosSalvosLaura = {}, novosSalvosThalita = {};
     snap.forEach(docSnap => {
       const id = docSnap.id;
       const d = docSnap.data();
       if (typeof d.laura === 'number' && d.laura > 0) novaLaura[id] = d.laura;
       if (typeof d.thalita === 'number' && d.thalita > 0) novaThalita[id] = d.thalita;
-      if (d.favorito) novosFavoritos[id] = true;
+      if (d.favoritoLaura) novosFavoritosLaura[id] = true;
+      if (d.favoritoThalita) novosFavoritosThalita[id] = true;
       if (d.salvoLaura) novosSalvosLaura[id] = true;
       if (d.salvoThalita) novosSalvosThalita[id] = true;
     });
     avaliacoesLaura = novaLaura;
     avaliacoesThalita = novaThalita;
-    favoritos = novosFavoritos;
+    favoritosLaura = novosFavoritosLaura;
+    favoritosThalita = novosFavoritosThalita;
     salvosLaura = novosSalvosLaura;
     salvosThalita = novosSalvosThalita;
     conexaoOk = true;
@@ -857,10 +863,15 @@ const auth = getAuth(firebaseApp);
     return div.innerHTML;
   }
 
+  function botaoFavoritoHtml(id, pessoa, favoritado) {
+    const somenteLeitura = pessoa !== euSou;
+    const nome = pessoa === 'thalita' ? 'da Thalita' : 'da Laura';
+    return `<button type="button" class="botao-favorito ${favoritado ? 'ativo' : ''} ${somenteLeitura ? 'leitura' : ''}" data-id-favorito="${id}" data-pessoa="${pessoa}" title="${favoritado ? `Remover dos favoritos ${nome}` : `Marcar como favorito ${nome}`}">${favoritado ? '❤️' : '🤍'}</button>`;
+  }
+
   function cartaoHtml(t) {
     const notaLaura = avaliacoesLaura[t.id] || 0;
     const notaThalita = avaliacoesThalita[t.id] || 0;
-    const ehFavorito = !!favoritos[t.id];
     return `
       <div class="cartaz-wrap">
         <div class="cartaz" style="background:${fundoCartaz(t)}">
@@ -873,11 +884,12 @@ const auth = getAuth(firebaseApp);
         <div class="linha-avaliacao">
           <span class="rotulo-pessoa laura" title="Laura">L</span>
           ${estrelasHtml(t.id, notaLaura, 'laura')}
-          <button type="button" class="botao-favorito ${ehFavorito ? 'ativo' : ''}" data-id-favorito="${t.id}" title="${ehFavorito ? 'Remover dos favoritos' : 'Marcar como favorito'}">${ehFavorito ? '❤️' : '🤍'}</button>
+          ${botaoFavoritoHtml(t.id, 'laura', !!favoritosLaura[t.id])}
         </div>
         <div class="linha-avaliacao">
           <span class="rotulo-pessoa thalita" title="Thalita">T</span>
           ${estrelasHtml(t.id, notaThalita, 'thalita')}
+          ${botaoFavoritoHtml(t.id, 'thalita', !!favoritosThalita[t.id])}
         </div>
         ${notaLaura > 0 ? '<div class="tag-assistido laura">✓ Laura já assistiu</div>' : ''}
         ${notaThalita > 0 ? '<div class="tag-assistido thalita">✓ Thalita já assistiu</div>' : ''}
@@ -968,8 +980,10 @@ const auth = getAuth(firebaseApp);
       `Laura avaliou <strong>${Object.keys(avaliacoesLaura).length}</strong> títulos`;
     document.getElementById('contador-thalita').innerHTML =
       `Thalita avaliou <strong>${Object.keys(avaliacoesThalita).length}</strong> títulos`;
-    document.getElementById('contador-favoritos').innerHTML =
-      `❤️ <strong>${Object.keys(favoritos).filter(id => favoritos[id]).length}</strong> favoritos`;
+    document.getElementById('contador-favoritos-laura').innerHTML =
+      `❤️ Laura: <strong>${Object.keys(favoritosLaura).length}</strong>`;
+    document.getElementById('contador-favoritos-thalita').innerHTML =
+      `❤️ Thalita: <strong>${Object.keys(favoritosThalita).length}</strong>`;
     document.getElementById('contador-salvos').innerHTML =
       `Você salvou <strong>${Object.keys(meusSalvos()).length}</strong> pra depois`;
     document.getElementById('status-conexao').hidden = conexaoOk;
@@ -1007,8 +1021,12 @@ const auth = getAuth(firebaseApp);
     }
     const botaoFavorito = ev.target.closest('[data-id-favorito]');
     if (botaoFavorito) {
+      const pessoa = botaoFavorito.dataset.pessoa;
+      if (pessoa !== euSou) return; // só dá pra favoritar/desfavoritar o próprio coração
       const id = botaoFavorito.dataset.idFavorito;
-      setDoc(doc(db, 'estado', id), { favorito: !favoritos[id] }, { merge: true }).catch(aoFalharConexao);
+      const campo = pessoa === 'thalita' ? 'favoritoThalita' : 'favoritoLaura';
+      const atual = pessoa === 'thalita' ? favoritosThalita[id] : favoritosLaura[id];
+      setDoc(doc(db, 'estado', id), { [campo]: !atual }, { merge: true }).catch(aoFalharConexao);
       return;
     }
     const botaoSalvar = ev.target.closest('[data-id-salvar]');
