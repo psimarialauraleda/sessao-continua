@@ -593,6 +593,7 @@ const auth = getAuth(firebaseApp);
     { id:'heartstopper-forever', titulo:'Heartstopper Forever', tipo:'filme', genero:'romance', ano:2026, data:'2026-07-17', plataforma:'Netflix', rt:95, safico:true, sinopse:'Filme final da franquia: além de Nick e Charlie, acompanha o casal sáfico Darcy e Tara.' },
     { id:'the-hunting-wives', titulo:'The Hunting Wives', tipo:'serie', genero:'suspense', ano:2025, data:'2025-07-21', plataforma:'Netflix', rt:81, safico:true, sinopse:'Brittany Snow e Malin Åkerman em drama sobre esposas ricas no Texas, com affair sáfico no centro da trama.' },
     { id:'cem-anos-de-solidao-2', titulo:'Cem Anos de Solidão: Parte 2', tipo:'serie', genero:'drama', ano:2026, data:'2026-08-05', plataforma:'Netflix', rt:87, safico:false, sinopse:'Conclusão da adaptação do clássico de Gabriel García Márquez, com a saga da família Buendía em Macondo.' },
+    { id:'dont-say-good-luck', titulo:'Don\'t Say Good Luck', tipo:'filme', genero:'drama', ano:2026, data:'2026-08-14', plataforma:'Netflix', rt:93, safico:false, sinopse:'Adam Sandler numa comédia dramática sobre uma família enfrentando o diagnóstico terminal da mãe — um dos melhores scores da carreira dele.' },
 
     // ---- Disney+ ----
     { id:'mandalorian-grogu', titulo:'The Mandalorian & Grogu', tipo:'filme', genero:'ficcao', ano:2026, data:'2026-05-20', plataforma:'Disney+', rt:60, safico:false, sinopse:'Filme (não uma nova temporada) que fecha o arco do caçador de recompensas e seu pupilo — recorde de audiência no streaming.' },
@@ -603,6 +604,8 @@ const auth = getAuth(firebaseApp);
     { id:'spider-man-no-way-home', titulo:'Homem-Aranha: Sem Volta Para Casa', tipo:'filme', genero:'superheroi', ano:2021, data:null, plataforma:'Disney+', rt:null, safico:false, sinopse:'Multiverso de aranhas — voltou ao topo do Disney+ em 2026.' },
     { id:'camp-rock-3', titulo:'Camp Rock 3', tipo:'filme', genero:'comedia', ano:2026, data:'2026-08-14', plataforma:'Disney+', rt:47, safico:false, sinopse:'Os irmãos Jonas retornam ao acampamento de música pra descobrir a próxima geração de talentos.' },
     { id:'x-men-97-t2', titulo:"X-Men '97", tipo:'serie', genero:'superheroi', ano:2026, data:'2026-07-01', plataforma:'Disney+', rt:100, safico:false, sinopse:'2ª temporada da animação, com os X-Men enfrentando Apocalipse — maior nota de um projeto Marvel na história do RT.' },
+    { id:'star-wars-visions-ninth-jedi', titulo:'Star Wars: Visions Apresenta – A Nona Jedi', tipo:'serie', genero:'animacao', ano:2026, data:'2026-08-05', plataforma:'Disney+', rt:92, safico:false, sinopse:'Anime de 8 episódios que expande a história de "The Ninth Jedi", com Lah Kara em busca de se tornar Jedi.' },
+    { id:'the-shards', titulo:'Estilhaços', tipo:'serie', genero:'suspense', ano:2026, data:null, plataforma:'Disney+', rt:52, safico:false, sinopse:'Minissérie de Ryan Murphy baseada no livro de Bret Easton Ellis, sobre estudantes de uma escola de elite em Los Angeles nos anos 1980.' },
 
     // ---- Apple TV+ ----
     { id:'ted-lasso-t4', titulo:'Ted Lasso', tipo:'serie', genero:'comedia', ano:2026, data:null, plataforma:'Apple TV+', rt:89, safico:false, sinopse:'4ª temporada, de volta após 3 anos de hiato.' },
@@ -612,6 +615,7 @@ const auth = getAuth(firebaseApp);
     { id:'pluribus', titulo:'Pluribus', tipo:'serie', genero:'ficcao', ano:2026, data:null, plataforma:'Apple TV+', rt:99, safico:false, sinopse:'A pessoa mais infeliz do mundo precisa salvá-lo de uma epidemia de felicidade coletiva.' },
     { id:'dark-matter-t2', titulo:'Matéria Escura', tipo:'serie', genero:'ficcao', ano:2026, data:'2026-08-28', plataforma:'Apple TV+', rt:95, safico:false, sinopse:'2ª temporada do thriller multiverso de Blake Crouch, com Jason Dessen enfrentando as consequências de viajar entre realidades paralelas.' },
     { id:'mayday', titulo:'Mayday', tipo:'filme', genero:'comedia', ano:2026, data:'2026-09-04', plataforma:'Apple TV+', rt:81, safico:false, sinopse:'Ryan Reynolds e Kenneth Branagh numa comédia de guerra elogiada pela crítica — melhor nota de Reynolds em 10 anos.' },
+    { id:'lucky', titulo:'Lucky', tipo:'serie', genero:'suspense', ano:2026, data:'2026-07-15', plataforma:'Apple TV+', rt:78, safico:false, sinopse:'Minissérie de 7 episódios com Anya Taylor-Joy como uma golpista fugindo após um assalto milionário dar errado.' },
 
     // ---- HBO Max ----
     { id:'house-of-the-dragon-t3', titulo:'House of the Dragon', tipo:'serie', genero:'fantasia', ano:2026, data:null, plataforma:'HBO Max', rt:97, safico:false, sinopse:'3ª temporada da prequela de Game of Thrones — melhor nota da franquia desde 2019.' },
@@ -620,11 +624,13 @@ const auth = getAuth(firebaseApp);
     { id:'a-knight-of-the-seven-kingdoms', titulo:'A Knight of the Seven Kingdoms', tipo:'serie', genero:'fantasia', ano:2026, data:null, plataforma:'HBO Max', rt:95, safico:false, sinopse:'Spin-off de Game of Thrones ambientado cem anos antes, seguindo um cavaleiro errante.' },
     { id:'weapons', titulo:'Weapons', tipo:'filme', genero:'terror', ano:2025, data:null, plataforma:'HBO Max', rt:93, safico:false, sinopse:'Terror aclamado pela crítica, agora disponível no streaming.' },
     { id:'killing-faith', titulo:'Possuída no Deserto', tipo:'filme', genero:'terror', ano:2025, data:'2026-08-01', plataforma:'HBO Max', rt:78, safico:false, sinopse:'Faroeste sobrenatural com Guy Pearce sobre uma médica viúva em busca de cura pra filha amaldiçoada — sucesso global no HBO Max.' },
+    { id:'fuze', titulo:'Golpe Explosivo', tipo:'filme', genero:'acao', ano:2026, data:'2026-09-04', plataforma:'HBO Max', rt:72, safico:false, sinopse:'Aaron Taylor-Johnson e Theo James num thriller de ação sobre uma bomba não detonada e um assalto a banco em Londres — #1 do HBO Max no dia do lançamento.' },
     { id:'euphoria-t3', titulo:'Euphoria', tipo:'serie', genero:'drama', ano:2026, data:'2026-04-12', plataforma:'HBO Max', rt:56, safico:false, sinopse:'3ª temporada do drama adolescente mais intenso da HBO — pior nota da franquia no Rotten Tomatoes.' },
 
     // ---- Prime Video ----
     { id:'reacher-t4', titulo:'Reacher', tipo:'serie', genero:'acao', ano:2026, data:'2026-08-12', plataforma:'Prime Video', rt:88, safico:false, sinopse:'4ª temporada de Alan Ritchson como o ex-militar Jack Reacher — a mais sombria e complexa da franquia.' },
     { id:'sterling-point', titulo:'Sterling Point', tipo:'serie', genero:'drama', ano:2026, data:'2026-08-05', plataforma:'Prime Video', rt:91, safico:false, sinopse:'Drama original com Jeffrey Dean Morgan, estreia muito bem avaliada do Prime Video.' },
+    { id:'ride-or-die', titulo:'Ride or Die', tipo:'serie', genero:'comedia', ano:2026, data:'2026-07-15', plataforma:'Prime Video', rt:98, safico:false, sinopse:'Hannah Waddingham e Octavia Spencer em comédia de ação sobre assassinas em fuga — uma das notas mais altas do ano no Prime Video.' },
     { id:'the-boys-t5', titulo:'The Boys', tipo:'serie', genero:'superheroi', ano:2026, data:null, plataforma:'Prime Video', rt:97, safico:false, sinopse:'5ª e última temporada da sátira de super-heróis corruptos — encerra a franquia com o maior score de crítica em anos.' },
     { id:'the-runner', titulo:'The Runner', tipo:'filme', genero:'acao', ano:2026, data:'2026-09-02', plataforma:'Prime Video', rt:10, safico:false, sinopse:'Gal Gadot é uma advogada forçada a cumprir uma missão perigosa em troca da vida do filho sequestrado — pior nota da carreira da atriz.' },
     { id:'neagley', titulo:'Neagley', tipo:'serie', genero:'acao', ano:2026, data:'2026-09-16', plataforma:'Prime Video', rt:null, safico:false, sinopse:'Spin-off de Reacher: a investigadora Frances Neagley encara uma missão perigosa usando sua experiência nos 110 Investigadores Especiais.' },
